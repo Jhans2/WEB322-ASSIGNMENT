@@ -1,0 +1,18 @@
+<div class="mine">
+  <div class="xrow">
+    {{#each ObjArray}}
+    <h1 style="text-align: center;">{{meal}}</h1>
+        {{#each prop}}
+        <div class="xcolumn">
+          <img src={{img}} alt="Jane" style="max-width: 100%" />
+          <div class="newcontainer">
+            <h2><b>{{name}}</b></h2>
+            <div class="title">
+              {{topping}}
+            </div>
+          </div>
+        </div>
+        {{/each}}
+    {{/each}}
+  </div>
+</div>

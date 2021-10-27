@@ -1,0 +1,58 @@
+<div class="hi">
+  <div class="login-page">
+    <div class="form">
+      <div class="login">
+        <div class="login-header">
+          <h3>SIGN-UP</h3>
+          <p>Please enter your details to register.</p>
+        </div>
+      </div>
+      <form class="login-form" method="post" action="/Registration">
+        <input
+          type="text"
+          placeholder="First Name"
+          id="firstName"
+          name="firstName"
+          value="{{values.firstName}}"
+        />
+        {{#if validation.firstName}}
+          <span style="color: red;">{{validation.firstName}}</span><br />
+        {{/if}}
+
+        <input
+          type="text"
+          placeholder="Last Name"
+          id="lastName"
+          name="lastName"
+          value="{{values.lastName}}"
+        />
+        {{#if validation.lastName}}
+          <span style="color: red;">{{validation.lastName}}</span><br />
+        {{/if}}
+        <input
+          type="text"
+          placeholder="Email Address"
+          id="email"
+          name="email"
+          value="{{values.email}}"
+        />
+        {{#if validation.email}}
+          <span style="color: red;">{{validation.email}}</span><br />
+        {{/if}}
+        <input
+          type="password"
+          placeholder="Password"
+          id="password"
+          name="password"
+          value="{{values.password}}"
+        />
+        {{#if validation.password}}
+          <span style="color: red;">{{validation.password}}</span><br />
+        {{/if}}
+        <button value="Registration" type="submit">Sign-Up</button>
+
+        <p class="message">Already a member? <a href="/Sign-in">Log In</a></p>
+      </form>
+    </div>
+  </div>
+</div>

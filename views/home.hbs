@@ -1,0 +1,14 @@
+{{>hero}}
+<div class="second-main">
+  <h1 style="text-align: center">WHAT'S ON THE MENU THIS WEEK?</h1>
+  <br />
+  <div class="row">
+      {{#each arr}}
+    {{>employee this}}
+    {{else}}
+        <tr>
+            <td colspan="4">No data available.</td>
+        </tr>
+    {{/each}}
+    </div>
+</div>
