@@ -94,7 +94,9 @@ router.post("/Registration", (req, res) => {
     sgMail
       .send(msg)
       .then(() => {
-        res.render("welcome");
+        res.render("welcome",{
+          firstName,lastName
+        });
       })
       .catch((err) => {
         console.log(`Error ${err}`);
