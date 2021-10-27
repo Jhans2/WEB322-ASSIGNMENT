@@ -94,14 +94,14 @@ router.post("/Registration", (req, res) => {
     sgMail
       .send(msg)
       .then(() => {
-        res.render("welcome",{
+        res.render("/welcome.hbs",{
           firstName,lastName
         });
       })
       .catch((err) => {
         console.log(`Error ${err}`);
 
-        res.render("Registration", {
+        res.render("Registration.hbs", {
           values: req.body,
           validation,
         });
