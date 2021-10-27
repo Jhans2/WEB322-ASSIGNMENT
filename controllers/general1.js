@@ -3,13 +3,11 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   res.render("/home", {
-    // title: "Home Page"
   });
 });
 
 router.get("/Sign-in", (req, res) => {
   res.render("Sign-in", {
-    // title: "Contact Us Page",
   });
 });
 
@@ -35,7 +33,6 @@ router.post("/Sign-in", (req, res) => {
     res.send("You logged in successfully!!!!");
   } else {
     res.render("Sign-in", {
-      //   title: "Contact Us Page",
       values: req.body,
       validation,
     });
