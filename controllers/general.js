@@ -77,37 +77,33 @@ router.post("/Registration", (req, res) => {
   } 
 
   if (passed) {
-    // const sgMail = require("@sendgrid/mail");
-    // sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+    const sgMail = require("@sendgrid/mail");
+    sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
-    // const msg = {
-    //   to: email,
-    //   from: "jhans2@myseneca.ca",
-    //   subject: "Success, New User Rigersterd",
-    //   html: `Hello ${firstName} ${lastName},<br><br>
-    //   Thank you for registering with us, We hope you will enjoy and learn about new dishes.<br><br>
-    //   Regards,<br>
-    //   Jatin hans.<br>
-    //   Website Visited: Agro Foods Limited<br>
-    //           `,
-    // };
+    const msg = {
+      to: email,
+      from: "jhans2@myseneca.ca",
+      subject: "Success, New User Rigersterd",
+      html: `Hello ${firstName} ${lastName},<br><br>
+      Thank you for registering with us, We hope you will enjoy and learn about new dishes.<br><br>
+      Regards,<br>
+      Jatin hans.<br>
+      Website Visited: Agro Foods Limited<br>
+              `,
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        res.render("welcome");
+      })
+      .catch((err) => {
+        console.log(`Error ${err}`);
 
-    // sgMail
-    //   .send(msg)
-    //   .then(() => {
-    //     // Validation passed, sent out an email.
-    //     res.render("welcome");
-    //   })
-    //   .catch((err) => {
-    //     console.log(`Error ${err}`);
-
-    //     res.render("Registration", {
-    //       //   title: "Contact Us Page",
-    //       values: req.body,
-    //       validation,
-    //     });
-    //   });
-    res.render("welcome");
+        res.render("Registration", {
+          values: req.body,
+          validation,
+        });
+      });
   } else {
     res.render("Registration", {
       values: req.body,
