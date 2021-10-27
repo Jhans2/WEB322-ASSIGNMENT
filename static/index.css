@@ -506,7 +506,7 @@ header a img {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 769px) {
   .image{
     text-align: center;
   }

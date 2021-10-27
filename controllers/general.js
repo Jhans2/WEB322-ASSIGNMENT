@@ -3,13 +3,11 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   res.render("/home", {
-    // title: "Home Page"
   });
 });
 
 router.get("/Registration", (req, res) => {
   res.render("Registration", {
-    // title: "Contact Us Page",
   });
 });
 
@@ -32,11 +30,9 @@ router.post("/Registration", (req, res) => {
   var Regex4 = new RegExp("(?=.*[!@#$%^&*])");
 
   if (typeof firstName !== "string" || firstName.trim().length === 0) {
-    // First name is not a string.... or, first name is an empty string.
     passed = false;
     validation.firstName = "You must specify a first name.";
   } else if (typeof firstName !== "string" || firstName.trim().length < 2) {
-    // First name is not a string.... or, first name is less than two characters.
     passed = false;
     validation.firstName = "First name should be at least 2 characters long.";
   }
@@ -79,13 +75,6 @@ router.post("/Registration", (req, res) => {
     passed = false;
     validation.password = "Password must contain a special character letter like !@#$%^&*";
   } 
-  
-  
-  
-  // else if (!strongRegex.test(password)) {
-  //   passed = false;
-  //   validation.password = "Password is not in correct Format";
-  // }
 
   if (passed) {
     // const sgMail = require("@sendgrid/mail");
@@ -121,7 +110,6 @@ router.post("/Registration", (req, res) => {
     res.render("welcome");
   } else {
     res.render("Registration", {
-      //   title: "Contact Us Page",
       values: req.body,
       validation,
     });
