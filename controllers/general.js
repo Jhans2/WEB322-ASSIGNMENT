@@ -26,6 +26,11 @@ router.post("/Registration", (req, res) => {
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,12})"
   );
 
+  var Regex1 = new RegExp("(?=.*[A-Z])");
+  var Regex2 = new RegExp("(?=.*[a-z])");
+  var Regex3 = new RegExp("(?=.*[0-9])");
+  var Regex4 = new RegExp("(?=.*[!@#$%^&*])");
+
   if (typeof firstName !== "string" || firstName.trim().length === 0) {
     // First name is not a string.... or, first name is an empty string.
     passed = false;
@@ -52,13 +57,35 @@ router.post("/Registration", (req, res) => {
     validation.email = "E-mail is not in correct Format";
   }
 
-  if (password.trim().length === 0) {
+  if (password.trim().length == 0) {
     passed = false;
     validation.password = "Password can not be empty";
-  } else if (!strongRegex.test(password)) {
+  }else if (password.trim().length < 6) {
     passed = false;
-    validation.password = "Password is not in correct Format";
-  }
+    validation.password = "Password must be of minimum length of 6 characters";
+  }else if (password.trim().length > 12) {
+    passed = false;
+    validation.password = "Password can't exceed 12 charaters";
+  }else if (!Regex1.test(password)) {
+    passed = false;
+    validation.password = "Password must contain a uppercase letter";
+  } else if (!Regex2.test(password)) {
+    passed = false;
+    validation.password = "Password must contain a lowercase letter";
+  } else if (!Regex3.test(password)) {
+    passed = false;
+    validation.password = "Password must contain a numeric character";
+  } else if (!Regex4.test(password)) {
+    passed = false;
+    validation.password = "Password must contain a special character letter like !@#$%^&*";
+  } 
+  
+  
+  
+  // else if (!strongRegex.test(password)) {
+  //   passed = false;
+  //   validation.password = "Password is not in correct Format";
+  // }
 
   if (passed) {
     // const sgMail = require("@sendgrid/mail");
