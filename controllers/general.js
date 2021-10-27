@@ -94,7 +94,7 @@ router.post("/Registration", (req, res) => {
     sgMail
       .send(msg)
       .then(() => {
-        res.render("/welcome.hbs",{
+        res.render("welcome",{
           firstName,lastName
         });
       })
