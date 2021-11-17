@@ -5,29 +5,54 @@
       alt="logo"
       style="float: left; max-height: 49px; max-width: 106px"
     />
-    <a href="/"class="active">&nbsp;&nbsp;AGRO FOODS</a>
-    <a href="/" >HOME-PAGE</a>
-    <a href="/onthemenu">ON THE MENU</a>
-    <div class="dropdown">
-      <button class="dropbtn">MORE OPTIONS
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-content">
-        <a href="#">FEATURES</a>
-        <a href="#">FOODS</a>
-        <a href="#">NAVIGATION BAR</a>
+
+    {{#if user}}
+      <a href="/" class="active">&nbsp;&nbsp;Hello
+        {{user.firstName}}
+        {{user.lastName}}!</a>
+      <a href="/">HOME-PAGE</a>
+      <a href="/onthemenu">ON THE MENU</a>
+      <div class="dropdown">
+        <button class="dropbtn">MORE OPTIONS
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="#">FEATURES</a>
+          <a href="#">FOODS</a>
+          <a href="#">NAVIGATION BAR</a>
+        </div>
       </div>
-    </div>
-    <a
-      style="float: right; margin: 1px"
-      href="/Registration"
-      class="ACTIVE"
-    >SIGN-UP</a>
-    <a
-      style="float: right;margin: 1px"
-      href="/Sign-in"
-      class="ACTIVE"
-    >LOG-IN</a>
+      <a
+        style="float: right; margin: 1px"
+        href="/logout"
+        class="ACTIVE"
+      >Logout</a>
+    {{else}}
+      <a href="/" class="active">&nbsp;&nbsp;AGRO FOODS</a>
+      <a href="/">HOME-PAGE</a>
+      <a href="/onthemenu">ON THE MENU</a>
+      <div class="dropdown">
+        <button class="dropbtn">MORE OPTIONS
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="#">FEATURES</a>
+          <a href="#">FOODS</a>
+          <a href="#">NAVIGATION BAR</a>
+        </div>
+      </div>
+      <a
+        style="float: right; margin: 1px"
+        href="/Registration"
+        class="ACTIVE"
+      >SIGN-UP</a>
+      <a
+        style="float: right;margin: 1px"
+        href="/Sign-in"
+        class="ACTIVE"
+      >LOG-IN</a>
+    {{/if}}
+
     <a
       href="javascript:void(0);"
       class="icon"

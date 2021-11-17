@@ -1,0 +1,81 @@
+{{#if clerk}}
+<div style="text-align: center;" class="ye">
+  <h1 >You are a Clerk!!!!<br>You do not have access to this page.</h1>
+  <img style="max-width: 50%;" src="./images/error.jpg">
+</div>>
+
+{{else}}
+<h1 style="text-align: center;"><u>Customer Dash Board</u></h1>
+<div class="first-main1">
+  <div class="row">
+    <div class="column5">
+      <div class="card">
+        <img
+          src="/images/1.jpg"
+          alt="Jane"
+          style="border-radius: 50%;max-width: 100%"
+        />
+        <div class="container">
+          <h2 style="text-align: center">We create original recipes.</h2>
+          <p style="text-align: center">
+            Our in-house culinary team uses premium ingredients to create unique
+            menus and products for breakfast, lunch, and dinner.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="column1">
+      <div class="card">
+        <img
+          src="/images/2.jpg"
+          alt="Mike"
+          style="border-radius: 50%;max-width: 100%"
+        />
+        <div class="container">
+          <h2 style="text-align: center">
+            We deliver fresh ingredients to your door — every week.
+          </h2>
+          <p style="text-align: center">
+            Your ingredients are packaged in our temperature-conditioned boxes,
+            so food stays fresh - even when you aren't at home.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="column1">
+      <div class="card">
+        <img
+          src="/images/3.jpg"
+          alt="Mike"
+          style="border-radius: 50%;max-width: 100%"
+        />
+        <div class="container">
+          <h2 style="text-align: center">
+            You eat incredible meals every day.
+          </h2>
+          <p style="text-align: center">
+            Our in-house culinary team uses premium ingredients to create unique
+            menus and products for breakfast, lunch, and dinner.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="second-main">
+  <h1 style="text-align: center">WHAT'S ON THE MENU THIS WEEK?</h1>
+  <br />
+  <div class="row">
+      {{#each arr}}
+    {{>employee this}}
+    {{else}}
+        <tr>
+            <td colspan="4">No data available.</td>
+        </tr>
+    {{/each}}
+    </div>
+</div>
+{{/if}}

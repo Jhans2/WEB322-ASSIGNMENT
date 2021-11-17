@@ -9,16 +9,18 @@
  * Course/Section: ZAA
  *
  ************************************************************************************/
-
 const path = require("path");
 
 const express = require("express");
 const exphbs = require("express-handlebars");
+const session = require("express-session");
 const bodyParser = require('body-parser');
-
 const dotenv = require('dotenv');
 dotenv.config({path:"./config/keys.env"});
+const mongoose = require("mongoose");
+
 const app = express();
+
 // Set up body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 ///////////////////////
@@ -31,6 +33,20 @@ app.engine(
 );
 
 app.set("view engine", ".hbs");
+// Set up express-session
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use((req, res, next) => {
+  // res.locals.user is a global handlebars variable.
+  // This means that every single handlebars file can access this variable.
+  res.locals.user = req.session.user;
+  res.locals.clerk = req.session.clerk;
+  next();
+});
 var meals = [
   {
     name: "Sticky Pecan Chicken Breasts",
@@ -149,6 +165,41 @@ app.get("/", function (req, res) {
   });
 });
 
+app.get("/customerDash", function (req, res) {
+  var arr = [];
+  for (let i = 0; i < 4; i++) {
+    arr.push(meals[i]);
+  }
+  res.render("customerDash", {
+    arr,
+  });
+});
+
+// setup another route to listen on /about
+app.get("/clerkDash", function (req, res) {
+  const groupBy = (array, key) => {
+    return array.reduce((result, currentValue) => {
+      (result[currentValue[key]] = result[currentValue[key]] || []).push(
+        currentValue
+      );
+      return result;
+    }, {});
+
+  };
+  const ObjArray = [];
+  const personGroupedByColor = groupBy(meals, "category");
+
+  Object.keys(personGroupedByColor).forEach((key) =>
+    ObjArray.push({
+      meal: key,
+      prop: personGroupedByColor[key],
+    })
+  );
+  res.render("clerkDash.hbs", {
+    ObjArray
+  });
+});
+
 // setup another route to listen on /about
 app.get("/onthemenu", function (req, res) {
   const groupBy = (array, key) => {
@@ -218,7 +269,7 @@ const generalController = require("./controllers/general");
 app.use("/", generalController);
 
 // Configure my controllers.
-const generalController1 = require("./controllers/general1");
+const generalController1 = require("./controllers/user");
 app.use("/", generalController1);
 
 // *** THE FOLLOWING CODE SHOULD APPEAR IN YOUR ASSIGNMENT AS IS (WITHOUT MODIFICATION) ***
@@ -239,6 +290,20 @@ app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
+
+// Assignment4
+// Set up and connect to MongoDB
+mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log("Connected to the MongoDB database.");
+})
+.catch((err) => {
+  console.log(`There was a problem connecting to MongoDB ... ${err}`);
+});
+//end of Assignment 4
 
 // Define a port to listen to requests on.
 const HTTP_PORT = process.env.PORT || 8080;

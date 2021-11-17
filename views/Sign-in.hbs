@@ -7,6 +7,9 @@
           <p>Please enter your credentials to login.</p>
         </div>
       </div>
+      {{#each errors}}
+        <p style="color: red">{{this}}</p>
+      {{/each}}
       <form class="login-form" method="post" action="/Sign-in">
         <input
           type="email"
@@ -28,6 +31,11 @@
         {{#if validation.password}}
           <span style="color: red;">{{validation.password}}</span><br />
         {{/if}}
+        <div style="display:flex; flex-direction:row;padding:0px 50px 0px 0px">
+          <input type="radio" id="customer" name="Login_type" value="customer" checked/> Customer
+          <input type="radio" id="clerk" name="Login_type" value="clerk" />Clerk
+        </div>
+        <br />
         <button value="Sign-in" type="submit">login</button>
         <p class="message">Not registered?
           <a href="/Registration">Create an account</a></p>

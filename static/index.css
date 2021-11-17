@@ -19,6 +19,17 @@ body {
   flex-wrap: wrap;
 }
 
+.first-main1 {
+  flex-wrap: wrap;
+}
+.column5 {
+  float: left;
+  padding: 0px 40px 0px 60px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
 .second-main {
   background-color: rgb(233, 231, 231);
   padding: 50px 0px;
@@ -269,6 +280,7 @@ header a img {
   max-width: 300px;
   margin: 0 auto;
 }
+
 
 .hi {
   background-color: #328f8a;
