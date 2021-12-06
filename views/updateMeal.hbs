@@ -1,0 +1,99 @@
+{{#if clerk}}
+<div class="hi">
+  <div class="login-page">
+    <div class="form">
+      <div class="login">
+        <div class="login-header">
+          <h3>Edit Meal</h3>
+          <p>Please update meal details to edit.</p>
+        </div>
+      </div>
+      <form class="login-form" method="post" action="/updateName" enctype="multipart/form-data">
+
+       <input type="hidden" name="id" value="{{meal._id}}" readonly/>
+
+        <input
+          type="text"
+          placeholder="Meal Name"
+          id="name"
+          name="name"
+          value='{{meal.name}}'
+        />
+
+        <input
+          type="text"
+          placeholder="Toppings"
+          id="topping"
+          name="topping"
+          value='{{meal.topping}}'
+        />
+
+        <textarea placeholder="Meal Description" id="description" name="description">{{meal.description}}</textarea>
+
+        <input
+          type="text"
+          placeholder="Category Type"
+          name="category"
+          list="category"
+          value='{{meal.category}}'
+        />
+         <datalist id="category">  
+          <option value="Chinese Meals">    
+          <option value="Classic Meals">  
+        </datalist>  
+
+        <input type="text" placeholder="Price: $" id="price" name="price"id="price" value='{{meal.price}}'/>
+
+        <input
+          type="text"
+          placeholder="Cooking Time"
+          id="time"
+          name="time"
+          value='{{meal.time}}'
+        />
+
+        <input
+          type="text"
+          placeholder="Total Servings"
+          id="servings"
+          name="servings"
+          value='{{meal.servings}}'
+        />
+
+        <input
+          type="text"
+          placeholder="Calories Per Serving"
+          id="per_erving"
+          name="per_serving"
+          value='{{meal.per_serving}}'
+        />
+
+        <input
+          name="top_meal"
+          type="text"
+          placeholder="Is it a Top Meal?"
+          list="top"
+          value='{{meal.top_meal}}'
+        />
+     <datalist id="top">  
+      <option value="true">  
+     <option value="false">    
+    </datalist>  
+    {{#if validation.ext}}
+<p style="color: red">{{validation.ext}}</p>
+  {{/if}}
+        <input type="file" name="profilePic" id="profilePic" value='{{meal.img}}'/><br />
+        
+        <img src="{{meal.img}}"style="max-width: 100%" >
+        <br><br>
+        <button id="updateName" value="Submit" type="submit">Edit Meal</button>
+      </form>
+    </div>
+  </div>
+</div>
+{{else}}
+<div style="text-align: center;" class="ye">
+  <h1 >You are a cutomer!!!!<br>You do not have access to this page</h1>
+  <img style="max-width: 50%;" src="./images/error.jpg">
+</div>>
+{{/if}} 

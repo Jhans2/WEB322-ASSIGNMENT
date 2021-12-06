@@ -9,20 +9,25 @@
  * Course/Section: ZAA
  *
  ************************************************************************************/
+const userModel = require("./models/food");
 const path = require("path");
-
 const express = require("express");
 const exphbs = require("express-handlebars");
 const session = require("express-session");
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
-dotenv.config({path:"./config/keys.env"});
+const fileUpload = require("express-fileupload");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config/keys.env" });
 const mongoose = require("mongoose");
 
 const app = express();
 
 // Set up body parser
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Set up express-fileupload
+app.use(fileUpload());
+
 ///////////////////////
 app.engine(
   ".hbs",
@@ -34,11 +39,13 @@ app.engine(
 
 app.set("view engine", ".hbs");
 // Set up express-session
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use((req, res, next) => {
   // res.locals.user is a global handlebars variable.
@@ -47,182 +54,175 @@ app.use((req, res, next) => {
   res.locals.clerk = req.session.clerk;
   next();
 });
-var meals = [
-  {
-    name: "Sticky Pecan Chicken Breasts",
-    topping: "with Napa Cabbage, Bok Choy Tips",
-    availability: "Family Basket",
-    img: "/images/4.jpg",
-    visible: true,
-    category: "Classic Meals",
-    price: "19.99",
-    time: "25 minutes",
-    servings: "2",
-    per_serving: "240",
-    top_meal: true,
-  },
-  {
-    name: "Tamarind Beef Meatball Bread",
-    topping: "with Sweet Peppers & Leafy Greens",
-    availability: "Easy Prep Basket",
-    img: "/images/5.jpg",
-    visible: true,
-    category: "Classic Meals",
-    price: "19.99",
-    time: "25 minutes",
-    servings: "2",
-    per_serving: "240",
-    top_meal: true,
-  },
-  {
-    name: "Tex-Mex Style Naan Pizza",
-    topping: "Freash Tomato & Cilantro Salsa",
-    availability: "Family Basket",
-    img: "/images/6.jpg",
-    visible: true,
-    category: "Classic Meals",
-    price: "19.99",
-    time: "25 minutes",
-    servings: "2",
-    per_serving: "240",
-    top_meal: true,
-  },
-  {
-    name: "Chicken Mushroom & Broccoli Bake",
-    topping: "with Cavatappi& Roasted Broccoli",
-    availability: "Easy Prep Basket",
-    img: "/images/7.jpg",
-    visible: true,
-    category: "Classic Meals",
-    price: "19.99",
-    time: "25 minutes",
-    servings: "2",
-    per_serving: "240",
-    top_meal: true,
-  },
 
-  {
-    name: "Pancetta and Egg Raman Noodles",
-    topping: "Chilli Tomato & Peas",
-    availability: "Family Basket",
-    img: "/images/8.jpg",
-    visible: true,
-    category: "Chinese Meals",
-    price: "19.99",
-    time: "25 minutes",
-    servings: "2",
-    per_serving: "240",
-    top_meal: true,
-  },
-  {
-    name: "Ground Beef & Zucchini Taquitios",
-    topping: "with Cucumber-Tomato Salsa",
-    availability: "Easy Prep Basket",
-    img: "/images/9.jpg",
-    visible: true,
-    category: "Chinese Meals",
-    price: "19.99",
-    time: "25 minutes",
-    servings: "2",
-    per_serving: "240",
-    top_meal: true,
-  },
-  {
-    name: "Pork Sausage & Squash Cavetli",
-    topping: "with Sausage and Squash cavetli",
-    availability: "Family Basket",
-    img: "/images/10.jpg",
-    visible: true,
-    category: "Chinese Meals",
-    price: "19.99",
-    time: "25 minutes",
-    servings: "2",
-    per_serving: "240",
-    top_meal: true,
-  },
-  {
-    name: "Tandoori Squash Naan Pizza",
-    topping: "Lettuce & Reedish Creamy bDressing",
-    availability: "Easy Prep Basket",
-    img: "/images/11.jpg",
-    visible: true,
-    category: "Chinese Meals",
-    price: "19.99",
-    time: "25 minutes",
-    servings: "2",
-    per_serving: "240",
-    top_meal: true,
-  },
-];
-// setup a 'route' to listen on the default url path (http://localhost)
-app.get("/", function (req, res) {
-  var arr = [];
-  for (let i = 0; i < 4; i++) {
-    arr.push(meals[i]);
-  }
-  res.render("home", {
-    arr,
-  });
+app.get("/", (req, res) => {
+  let arr = [];
+  userModel.find({ top_meal: 'true' })
+    .then((meals) => {
+      arr = meals.map(meal => {
+        return {
+          name: meal.name,
+          topping: meal.topping,
+          img: meal.img,
+          description: meal.description,
+        }
+      });
+      res.render("home", {
+        arr,
+      });
+    });
 });
 
-app.get("/customerDash", function (req, res) {
-  var arr = [];
-  for (let i = 0; i < 4; i++) {
-    arr.push(meals[i]);
-  }
-  res.render("customerDash", {
-    arr,
-  });
+app.get("/customerDash", (req, res) => {
+  let arr = [];
+  userModel.find({ top_meal: 'true' })
+    .then((meals) => {
+      arr = meals.map(meal => {
+        return {
+          name: meal.name,
+          topping: meal.topping,
+          img: meal.img,
+          description: meal.description,
+        }
+      });
+      res.render("customerDash", {
+        arr,
+      });
+    });
+});
+
+app.get("/updateDash", function (req, res) {
+  userModel
+    .find()
+    .exec()
+    .then((data) => {
+      data = data.map((value) => value.toObject());
+      var meals = data;
+      const groupBy = (array, key) => {
+        return array.reduce((result, currentValue) => {
+          (result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+          );
+          return result;
+        }, {});
+      };
+      const ObjArray = [];
+      const personGroupedByColor = groupBy(meals, "category");
+
+      Object.keys(personGroupedByColor).forEach((key) =>
+        ObjArray.push({
+          meal: key,
+          prop: personGroupedByColor[key],
+        })
+      );
+      res.render("updateDash.hbs", {
+        ObjArray,
+      });
+    });
+});
+
+app.get("/deleteDash", function (req, res) {
+  userModel
+    .find()
+    .exec()
+    .then((data) => {
+      data = data.map((value) => value.toObject());
+      var meals = data;
+      const groupBy = (array, key) => {
+        return array.reduce((result, currentValue) => {
+          (result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+          );
+          return result;
+        }, {});
+      };
+      const ObjArray = [];
+      const personGroupedByColor = groupBy(meals, "category");
+
+      Object.keys(personGroupedByColor).forEach((key) =>
+        ObjArray.push({
+          meal: key,
+          prop: personGroupedByColor[key],
+        })
+      );
+      res.render("deleteDash.hbs", {
+        ObjArray,
+      });
+    });
 });
 
 // setup another route to listen on /about
-app.get("/clerkDash", function (req, res) {
-  const groupBy = (array, key) => {
-    return array.reduce((result, currentValue) => {
-      (result[currentValue[key]] = result[currentValue[key]] || []).push(
-        currentValue
+app.get("/showMeals", function (req, res) {
+  userModel
+    .find()
+    .exec()
+    .then((data) => {
+      // Pull the data (exclusively)
+      // This is to ensure that our "data" object contains the returned data (only) and nothing else.
+      data = data.map((value) => value.toObject());
+      var meals = data;
+      const groupBy = (array, key) => {
+        return array.reduce((result, currentValue) => {
+          (result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+          );
+          return result;
+        }, {});
+      };
+      const ObjArray = [];
+      const personGroupedByColor = groupBy(meals, "category");
+
+      Object.keys(personGroupedByColor).forEach((key) =>
+        ObjArray.push({
+          meal: key,
+          prop: personGroupedByColor[key],
+        })
       );
-      return result;
-    }, {});
+      res.render("showMeals.hbs", {
+        ObjArray,
+      });
+    });
+});
 
-  };
-  const ObjArray = [];
-  const personGroupedByColor = groupBy(meals, "category");
+app.get("/clerkDash", (req, res) => {
+  res.render("clerkDash");
+});
 
-  Object.keys(personGroupedByColor).forEach((key) =>
-    ObjArray.push({
-      meal: key,
-      prop: personGroupedByColor[key],
-    })
-  );
-  res.render("clerkDash.hbs", {
-    ObjArray
-  });
+app.get("/updateMeal", (req, res) => {
+  res.render("updateMeal");
 });
 
 // setup another route to listen on /about
 app.get("/onthemenu", function (req, res) {
-  const groupBy = (array, key) => {
-    return array.reduce((result, currentValue) => {
-      (result[currentValue[key]] = result[currentValue[key]] || []).push(
-        currentValue
+  userModel
+    .find()
+    .exec()
+    .then((data) => {
+      // Pull the data (exclusively)
+      // This is to ensure that our "data" object contains the returned data (only) and nothing else.
+      data = data.map((value) => value.toObject());
+      var meals = data;
+      const groupBy = (array, key) => {
+        return array.reduce((result, currentValue) => {
+          (result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+          );
+          return result;
+        }, {});
+      };
+      const ObjArray = [];
+      const personGroupedByColor = groupBy(meals, "category");
+
+      Object.keys(personGroupedByColor).forEach((key) =>
+        ObjArray.push({
+          meal: key,
+          prop: personGroupedByColor[key],
+        })
       );
-      return result;
-    }, {});
-
-  };
-  const ObjArray = [];
-  const personGroupedByColor = groupBy(meals, "category");
-
-  Object.keys(personGroupedByColor).forEach((key) =>
-    ObjArray.push({
-      meal: key,
-      prop: personGroupedByColor[key],
-    })
-  );
-  res.render("onthemenu.hbs", {
-    ObjArray
-  });
+      res.render("onthemenu.hbs", {
+        ObjArray,
+      });
+    });
 });
 
 ///////////////////////
@@ -251,8 +251,16 @@ app.get("/welcome", (req, res) => {
   res.render("welcome");
 });
 
+app.get("/loadErr", (req, res) => {
+  res.render("loadErr");
+});
+
 app.get("/Registration", (req, res) => {
   res.render("Registration");
+});
+
+app.get("/addMeal", (req, res) => {
+  res.render("addMeal");
 });
 
 app.get("/extra", (req, res) => {
@@ -271,6 +279,10 @@ app.use("/", generalController);
 // Configure my controllers.
 const generalController1 = require("./controllers/user");
 app.use("/", generalController1);
+
+// Configure my controllers.
+const generalController2 = require("./controllers/foodCont");
+app.use("/", generalController2);
 
 // *** THE FOLLOWING CODE SHOULD APPEAR IN YOUR ASSIGNMENT AS IS (WITHOUT MODIFICATION) ***
 
@@ -293,16 +305,17 @@ app.use(function (err, req, res, next) {
 
 // Assignment4
 // Set up and connect to MongoDB
-mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log("Connected to the MongoDB database.");
-})
-.catch((err) => {
-  console.log(`There was a problem connecting to MongoDB ... ${err}`);
-});
+mongoose
+  .connect(process.env.MONGO_DB_CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to the MongoDB database.");
+  })
+  .catch((err) => {
+    console.log(`There was a problem connecting to MongoDB ... ${err}`);
+  });
 //end of Assignment 4
 
 // Define a port to listen to requests on.
