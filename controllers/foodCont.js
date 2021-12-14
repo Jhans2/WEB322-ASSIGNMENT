@@ -398,7 +398,7 @@ router.get("/load-data/meal-kits", (req, res) => {
             time: "25",
             servings: "2",
             per_serving: "240",
-            top_meal: false,
+            top_meal: true,
           },
 
           {
