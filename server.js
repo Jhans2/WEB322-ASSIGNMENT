@@ -193,7 +193,7 @@ app.get("/error", (req, res) => {
 
 
 app.get("/confirmedOrder", (req, res) => {
-  res.render("confirmedorder");
+  res.render("confirmedOrder");
 });
 
 app.get("/shoppingCart", (req, res) => {
