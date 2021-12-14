@@ -1,0 +1,13 @@
+{{#if user}}
+<div style="text-align: center;" class="confirm"> 
+    <h1>Order confirmed!</h1>
+    <h2>Thank you {{user.firstName}} for shoppping at Agro Foods!!!!</h2>
+    <h2>Your detail order receipt has been mailed to your registered email i.e {{user.email}}</h2>
+    <img src="/images/order.jpg">
+</div>
+{{else}}
+<div style="text-align: center;" class="ye">
+  <h1 >You are not logged in!!!!<br>You can not confirm your order</h1>
+  <img src="./images/error.jpg">
+</div>
+{{/if}}

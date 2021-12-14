@@ -1,12 +1,9 @@
-//Assignment 4
 const userModel = require("../models/user");
 const bcrypt = require("bcryptjs");
 const path = require("path");
-//
 const express = require("express");
 const router = express.Router();
 
-///////////////////////////////////////
 router.get("/Registration", (req, res) => {
   res.render("Registration", {});
 });
@@ -187,8 +184,8 @@ router.post("/Sign-in", (req, res) => {
                 // to the session.
                 req.session.user = user;
                 req.session.isClerk = req.body.Login_type;
-                
-                if (req.session.isClerk==="clerk") {
+
+                if (req.session.isClerk === "clerk") {
                   req.session.clerk = true;
                   res.redirect("clerkDash");
                 } else {

@@ -52,43 +52,42 @@ app.use((req, res, next) => {
   // This means that every single handlebars file can access this variable.
   res.locals.user = req.session.user;
   res.locals.clerk = req.session.clerk;
+  res.locals.cart = req.session.cart;
   next();
 });
 
 app.get("/", (req, res) => {
   let arr = [];
-  userModel.find({ top_meal: 'true' })
-    .then((meals) => {
-      arr = meals.map(meal => {
-        return {
-          name: meal.name,
-          topping: meal.topping,
-          img: meal.img,
-          description: meal.description,
-        }
-      });
-      res.render("home", {
-        arr,
-      });
+  userModel.find({ top_meal: "true" }).then((meals) => {
+    arr = meals.map((meal) => {
+      return {
+        name: meal.name,
+        topping: meal.topping,
+        img: meal.img,
+        description: meal.description,
+      };
     });
+    res.render("home", {
+      arr,
+    });
+  });
 });
 
 app.get("/customerDash", (req, res) => {
   let arr = [];
-  userModel.find({ top_meal: 'true' })
-    .then((meals) => {
-      arr = meals.map(meal => {
-        return {
-          name: meal.name,
-          topping: meal.topping,
-          img: meal.img,
-          description: meal.description,
-        }
-      });
-      res.render("customerDash", {
-        arr,
-      });
+  userModel.find({ top_meal: "true" }).then((meals) => {
+    arr = meals.map((meal) => {
+      return {
+        name: meal.name,
+        topping: meal.topping,
+        img: meal.img,
+        description: meal.description,
+      };
     });
+    res.render("customerDash", {
+      arr,
+    });
+  });
 });
 
 app.get("/updateDash", function (req, res) {
@@ -186,6 +185,19 @@ app.get("/showMeals", function (req, res) {
 
 app.get("/clerkDash", (req, res) => {
   res.render("clerkDash");
+});
+
+app.get("/error", (req, res) => {
+  res.render("error");
+});
+
+
+app.get("/confirmedOrder", (req, res) => {
+  res.render("confirmedorder");
+});
+
+app.get("/shoppingCart", (req, res) => {
+  res.render("shoppingCart");
 });
 
 app.get("/updateMeal", (req, res) => {

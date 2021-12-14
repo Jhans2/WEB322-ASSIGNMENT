@@ -3,6 +3,136 @@ const path = require("path");
 const express = require("express");
 const router = express.Router();
 
+router.post("/addToCart/:name", (req, res) => {
+  userModel
+    .find({ name: req.params.name })
+    .exec()
+    .then((meal) => {
+      let cartItem = meal.map((meal) => {
+        return {
+          _id: meal._id,
+          name: meal.name,
+          description: meal.description,
+          price: meal.price,
+          topping: meal.topping,
+          img: meal.img,
+          qty: 1,
+        };
+      });
+      var cart = (req.session.cart = req.session.cart || []);
+      var found = false;
+      cart.forEach((item) => {
+        if (item.name == req.params.name) {
+          found = true;
+          item.qty++;
+        }
+      });
+      if (found) {
+      } else {
+        cart.push(cartItem[0]);
+      }
+      res.redirect("/cart");
+    });
+});
+
+router.get("/remove/:name", (req, res) => {
+  const name = req.params.name;
+  var cart = req.session.cart || [];
+
+  const index = cart.findIndex((item) => {
+    return item.name == name;
+  });
+
+  if (index >= 0) {
+    cart.splice(index, 1);
+  } else {
+    message = "Meal was not found in your cart.";
+  }
+  res.redirect("/cart");
+});
+
+router.get("/cart", (req, res) => {
+  let orderTotal = 0;
+  var cart = req.session.cart || [];
+  cart.forEach((item) => (orderTotal += item.price * item.qty));
+  res.render("shoppingCart", {
+    title: "Shopping Cart",
+    user: req.session.user,
+    item: req.session.cart,
+    total: orderTotal,
+  });
+});
+
+router.post("/order",(req, res) => {
+  let orderTotal = 0;
+  let orderhtml = `<table>
+  <tr>
+      <th>Meal Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+  </tr>`;
+  req.session.cart.forEach(item => orderTotal += item.price * item.qty);
+  req.session.cart.forEach(item => {
+      orderhtml += `<tr>
+      <td>${item.name}</td>
+      <td>${item.qty}</td>
+      <td>$${item.price}</td>
+      </tr>`
+  });
+  orderhtml += `</table>`;
+
+  const sgMail = require('@sendgrid/mail');
+  sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+  const msg = {
+      to: `${req.session.user.email}`,
+      from: 'jhans2@myseneca.ca',
+      subject: 'Thank you for coming!',
+      html: `<h2>Thank you for ordering from Agro Foods!</h2>
+          <p>Here are your order details ${req.session.user.firstName} ${req.session.user.lastName}</p>
+          ${orderhtml}
+          <p>Your total was $${orderTotal}</p><br>
+          <p>Thanks again, and see you soon, 
+          the Agro Foods team</p>`,
+  };
+  sgMail.send(msg)
+      .then(() => {
+          req.session.cart = [];
+          res.redirect("/confirmedOrder");
+      })
+      .catch(err => {
+          console.log(`Error ${err}`);
+      });
+});
+
+router.get("/details/:name", (req, res) => {
+  let detailMeal = [];
+  userModel
+    .find({ name: req.params.name })
+    .exec()
+    .then((meal) => {
+      if (!meal) {
+        console.log("Error finding meal");
+      } else {
+        detailMeal = meal.map((meal) => {
+          return {
+            _id: meal._id,
+            name: meal.name,
+            time: meal.time,
+            description: meal.description,
+            price: meal.price,
+            img: meal.img,
+            servings: meal.servings,
+            per_serving: meal.per_serving,
+            topping: meal.topping,
+          };
+        });
+      }
+      res.render("details", {
+        meals: detailMeal,
+      });
+    });
+});
+
 router.post("/deleteDash", (req, res) => {
   userModel
     .deleteOne({
@@ -309,7 +439,7 @@ router.get("/load-data/meal-kits", (req, res) => {
           },
           {
             name: "Tandoori Squash Naan Pizza",
-            topping: "Lettuce & Reedish Creamy bDressing",
+            topping: "Lettuce & Reedish Creamy Dressing",
             description: "Easy Prep Basket",
             img: "/images/11.jpg",
             category: "Chinese Meals",

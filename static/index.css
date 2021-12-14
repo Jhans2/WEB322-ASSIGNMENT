@@ -294,7 +294,6 @@ header a img {
   margin: 0 auto;
 }
 
-
 .hi {
   background-color: #328f8a;
   background-image: linear-gradient(45deg, #328f8a, #08ac4b);
@@ -432,7 +431,7 @@ header a img {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
-  height: 400px;
+  height: 480px;
 }
 
 .xrow:after {
@@ -466,11 +465,66 @@ header a img {
     padding: 0px 0px 0px 0px;
   }
 }
+.ye img {
+  max-width: 50%;
+}
+.mm img {
+  width: 50%;
+}
+.uu img {
+  max-width: 100%;
+}
+.mealsTitle {
+  font-size: 44pt;
+  color: #ddd;
+  text-align: center;
+  margin-bottom: -2%;
+}
+.detailCard img {
+  float: none;
+  max-width: 100%;
+}
+.detailCard p {
+  font-size: 2em;
+}
+.detailCard .price {
+  font-size: 4em;
+}
 @media screen and (max-width: 414px) {
   .mine {
     padding: 0px 0px 0px 0px;
   }
+  .xcolumn {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 420px;
+  }
+  .ye img {
+    max-width: 90%;
+  }
+  .mm img {
+    width: 90%;
+  }
+  .uu img {
+    max-width: 100%;
+    height: 40%;
+  }
+  .detailCard img {
+    float: none;
+    max-width: 90%;
+  }
+  .mealsTitle {
+    font-size: 28pt;
+    color: #ddd;
+    text-align: center;
+    margin-bottom: -2%;
+  }
+  .detailCard p {
+    font-size: 16pt;
+  }
 }
+
 .buttonw {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
@@ -520,19 +574,19 @@ header a img {
   }
 }
 @media screen and (max-width: 1280px) {
-  body{
+  body {
     max-width: 100%;
   }
   .landing-page {
     flex-direction: column;
   }
-  .image{
+  .image {
     text-align: center;
   }
 }
 
 @media screen and (max-width: 769px) {
-  .image{
+  .image {
     text-align: center;
   }
   .landing-page img {
@@ -571,4 +625,56 @@ header a img {
     width: 100%;
     text-align: left;
   }
+}
+.mealDetails {
+  display: flex;
+  background-color: #111;
+  justify-content: center;
+}
+
+.detailCard {
+  color: white;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  text-align: center;
+}
+
+.confirm img {
+  width: 30%;
+}
+.card99 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: 15px;
+  text-align: center;
+  font-family: arial;
+  height: 500px;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
+.card99 button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.card99 button:hover {
+  opacity: 0.7;
+}
+
+.pp{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

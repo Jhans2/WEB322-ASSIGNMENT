@@ -1,18 +1,25 @@
 <div class="mine">
   <div class="xrow">
     {{#each ObjArray}}
-    <h1 style="text-align: center;">{{meal}}</h1>
-        {{#each prop}}
+      <h1 style="text-align: center;">{{meal}}</h1>
+      {{#each prop}}
         <div class="xcolumn">
-          <img src={{img}} alt="Jane" style="max-width: 100%" />
-          <div class="newcontainer">
-            <h2><b>{{name}}</b></h2>
-            <div class="title">
-              {{topping}}
+          <div class="card1">
+            <img src={{img}} alt="Jane" style="max-width: 100%;" />
+            <div class="newcontainer" style="text-align: center;">
+              <h2><b>{{name}}</b></h2>
+              <div class="title">
+                {{topping}}
+              </div>
+              <br />
+              <form method="get" action="/details/{{name}}">
+                <button class="buttonw">View
+                  Details</button>
+              </form>
             </div>
           </div>
         </div>
-        {{/each}}
+      {{/each}}
     {{/each}}
   </div>
 </div>

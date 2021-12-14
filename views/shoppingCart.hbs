@@ -1,0 +1,50 @@
+{{#if user}}
+  <div class="cart">
+    <div class="shoppingCart">
+      {{#if cart}}
+<h1 style="text-align: center;"><u>{{user.firstName}}'s Shopping Cart</u></h1>
+<div class="pp">
+{{#each item}}
+<div class="card99">
+  <img src="{{img}}" alt="Denim Jeans" style="width:100%">
+  <h1>{{name}}</h1>
+    <p>{{topping}}</p>
+  <p class="price">Price: ${{price}}</p>
+    <p class="price">Quantity: {{qty}}</p>
+  <p><form method="get" action="/remove/{{name}}"><button>Remove Meal</button></form></p>
+</div>
+ {{/each}}
+ </div>
+
+        <h2 style="text-align: center;">Order Total: ${{total}}</h2>
+        <div style="text-align:center">
+          <form method="POST" action="/order">
+            <button class="buttonw" type="submit"/>Place Order<button>
+          </form>
+          <button
+            class="buttonw"
+            onclick="window.open('/onthemenu','_self');"
+          >Add more meals to Your Cart</button>
+          <br /><br />
+        </div>
+
+      {{else}}
+        <div style="text-align: center;">
+          <h1>Your cart is empty.</h1>
+          <button
+            class="buttonw"
+            onclick="window.open('/onthemenu','_self');"
+          >Press here to shop!!!</button>
+          <div class="mm">
+            <img src="/images/empty.jpg" alt="emptyCart" />
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+{{else}}
+  <div style="text-align: center;" class="ye">
+    <h1>You are not logged in!!!!<br />You can not view your cart</h1>
+    <img src="./images/error.jpg" />
+  </div>
+{{/if}}

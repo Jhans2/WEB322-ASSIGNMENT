@@ -1,0 +1,38 @@
+{{#if user}}
+  <div class="mealDetails">
+    {{#each meals}}
+      <div class="detailCard">
+        <div class="detailImg">
+          <img src="{{img}}" />
+        </div>
+        <h1 class="mealsTitle">{{name}}</h1>
+        <p>{{topping}}</p>
+        <p>Cooking Time: {{time}} minutes</p>
+        <p>Total Servings: {{servings}} grams</p>
+        <p> Calories per serving: {{per_serving}} calories</p>
+        <p>Price: ${{price}}</p>
+        <form method="POST" action="/addToCart/{{name}}">
+          <button class="buttonw">Add to cart</button>
+        </form>
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  <div class="mealDetails">
+    {{#each meals}}
+      <div class="detailCard">
+        <div class="detailImg">
+          <img src="{{img}}" />
+        </div>
+        <h1 class="mealsTitle">{{name}}</h1>
+        <p>{{topping}}</p>
+        <p>Cooking Time: {{time}} minutes</p>
+        <p>Total Servings: {{servings}} grams</p>
+        <p> Calories per serving: {{per_serving}} calories</p>
+        <p>Price: ${{price}}</p>
+        <button class="buttonw" onclick="window.open('/error','_self');">Add to
+          cart</button>
+      </div>
+    {{/each}}
+  </div>
+{{/if}}
