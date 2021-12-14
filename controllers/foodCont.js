@@ -97,7 +97,7 @@ router.post("/order",(req, res) => {
   sgMail.send(msg)
       .then(() => {
           req.session.cart = [];
-          res.render("/confirmedOrder");
+          res.redirect("/confirmedOrder");
       })
       .catch(err => {
           console.log(`Error ${err}`);
